@@ -3,6 +3,8 @@ package de.hoel.video.server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.util.concurrent.RateLimiter;
+
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -292,10 +294,15 @@ public class MultipartFileSender {
         private static void copy(InputStream input, OutputStream output, long inputSize, long start, long length) throws IOException {
             byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
             int read;
+            
+            final RateLimiter rateLimiter = RateLimiter.create(5 * 1000 * 1000.0); //5 mbps
 
             if (inputSize == length) {
                 // Write full range.
                 while ((read = input.read(buffer)) > 0) {
+                	
+                	rateLimiter.acquire(read); //TODO rate limiter mark
+                	
                     output.write(buffer, 0, read);
                     output.flush();
                 }
@@ -305,9 +312,15 @@ public class MultipartFileSender {
 
                 while ((read = input.read(buffer)) > 0) {
                     if ((toRead -= read) > 0) {
+                    	
+                    	rateLimiter.acquire(read); //TODO rate limiter mark
+                    	
                         output.write(buffer, 0, read);
                         output.flush();
                     } else {
+                    	
+                    	rateLimiter.acquire((int) toRead + read); //TODO rate limiter mark
+                    	
                         output.write(buffer, 0, (int) toRead + read);
                         output.flush();
                         break;
