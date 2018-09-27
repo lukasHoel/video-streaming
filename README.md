@@ -7,7 +7,7 @@ Example of Video Streaming via HTTP 206 Partial Content to a Video Player
 
 - Client: 
   1. VLCJ (https://github.com/caprica/vlcj)
-  2. Every other client (e.g. Google Chrome, ...) is possible.
+  2. Every other video-client (e.g. Google Chrome, ...) is possible.
 
 - Usage: 
   1. Make sure to edit the Video Path in `de.hoel.video.server.VideoController#getTestVideo` to find an actual example video source.
