@@ -11,6 +11,6 @@ Example of Video Streaming via HTTP 206 Partial Content to a Video Player
 
 - Usage: 
   1. Make sure to edit the Video Path in `de.hoel.video.server.VideoController#getTestVideo` to find an actual example video source.
-  2. Use or do not use the `RateLimiter` feature from `Guava` to simulate a slower network connection. Do that by (un)commenting the lines in `de.hoel.video.server.MultiPartFileSender` that use the `RateLimiter`.
+  2. Use or do not use the `RateLimiter` feature from `Guava` to simulate a slower network connection. Do that by (un)commenting the lines in `de.hoel.video.server.MultipartFileSender` that use the `RateLimiter`.
   3. Run `de.hoel.video.server.VideoServerApplication` as Java Program
   4. Open `http://localhost:8080/videos/test` in a Browser or by starting `de.hoel.video.client.VideoClient`
